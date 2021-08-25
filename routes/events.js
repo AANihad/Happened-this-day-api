@@ -4,6 +4,7 @@ const express = require("express"),
     showTodayEvents,
     createEvent,
     showEventsCategory,
+    showTodayEventsCategory,
     showOneEvent,
     updateEvent,
     deleteEvent,
@@ -11,7 +12,13 @@ const express = require("express"),
   router = express.Router();
 
 router.route("/").get(showTodayEvents).post(createEvent);
-router.route("/categories/:category").get(showEventsCategory);
-//router.route("/:id").get(showOneEvent).put(updateEvent).delete(deleteEvent);
+router.route("/events/all").get(eventsList);
+router.route("/:category").get(showTodayEventsCategory);
+router.route("/:category/all").get(showEventsCategory);
+router
+  .route("/events/:id")
+  .get(showOneEvent)
+  .put(updateEvent)
+  .delete(deleteEvent);
 
 module.exports = router;
