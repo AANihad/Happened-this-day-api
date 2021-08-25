@@ -12,7 +12,7 @@ const express = require("express"),
   router = express.Router();
 
 router.route("/").get(showTodayEvents).post(createEvent);
-router.route("/events/all").get(eventsList);
+router.route("/all").get(eventsList);
 router.route("/:category").get(showTodayEventsCategory);
 router.route("/:category/all").get(showEventsCategory);
 router

@@ -1,8 +1,10 @@
-const express = require ("express"),
-{createUser, updateUser} = require("../middleware/user");
+const express = require("express"),
+  { requestCreateUser, updateUser } = require("../middleware/user"),
+  { isLoggedIn } = require("../middleware/auth");
+
 router = express.Router();
 
-router.route("/").post(createUser);
+router.route("/").post(requestCreateUser);
 
-router.route("/:id").put(updateUser);
-module.exports =router;
+router.route("/:id").put(isLoggedIn, updateUser);
+module.exports = router;

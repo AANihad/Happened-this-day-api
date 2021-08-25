@@ -35,7 +35,7 @@ module.exports = {
       let filtered = events.filter(function (event) {
         let today = new Date();
         return (
-          event.date.getDate() == today.getDate() &&
+          event.date.getDate() == today.getDate() && // Because dates are starting from 0
           event.date.getMonth() == today.getMonth()
         );
       });
@@ -94,7 +94,7 @@ module.exports = {
       let filtered = events.filter(function (event) {
         let today = new Date();
         return (
-          event.date.getDate() == today.getDate() &&
+          event.date.getDate() + 1 == today.getDate() &&
           event.date.getMonth() == today.getMonth()
         );
       });
