@@ -16,7 +16,7 @@ app.use("*", function (req, res, next) {
 
 mongoose.set("debug", true); // in devolpment process
 mongoose
-  .connect(process.env.DB_URL, {
+  .connect("mongodb+srv://Admin:shqw02bBizfsFq80@happened-on-this-day.gzzjg.mongodb.net/test", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     dbName: "happened-on-this-day",

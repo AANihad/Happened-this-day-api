@@ -1,6 +1,6 @@
 const express = require("express"),
-  { requestCreateUser, logUser } = require("../middleware/user");
+  { createUser, logUser } = require("../middleware/user");
 router = express.Router();
-router.route("/signup").post(requestCreateUser);
-//router.route("/login").post(logUser);
+router.route("/signup").post(createUser);
+router.route("/login").post(logUser);
 module.exports = router;
