@@ -20,7 +20,7 @@ let DateSchema = new mongoose.Schema({
     },
     country: String,
     place: String,
-    category: [String] /*{
+    category: {
       type: String,
       enum: [
         "History",
@@ -35,7 +35,7 @@ let DateSchema = new mongoose.Schema({
         "Birthdays",
         "Anime & Manga",
       ],
-    },*/,
+    },
     media: {
       cover: String,
       video: [String],
