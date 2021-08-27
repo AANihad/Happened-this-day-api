@@ -1,5 +1,14 @@
 const Event = require("../models/events");
-
+/*
+Dates in js
+Date.getDay() returns the day in the week starting by 0
+Date.getDay() returns the day in the month starting by 0
+Date.getMonth() returns the month starting by 0
+Date.getYear() returns the year -1900
+Date.getFullYear() returns the Year
+res.json(event) will display the date with the day starting from 0
+so http://localhost:3000/events/Date/1944/08/25 will correspond with an event that was inserted in the database with the corresponding date but will display it as 1944/08/24
+*/
 module.exports = {
   eventsList: async (req, res, next) => {
     console.log("eventsList");
@@ -37,6 +46,86 @@ module.exports = {
         return (
           event.date.getDate() == today.getDate() && // Because dates are starting from 0
           event.date.getMonth() == today.getMonth()
+        );
+      });
+      res.json(filtered);
+    } catch (e) {
+      res.json({ error: e.message });
+    }
+  },
+  showYear: async (req, res, next) => {
+    try {
+      console.log("showMonthYear");
+      const events = await Event.find({});
+      const year = req.params.year;
+      console.log(year);
+
+      events.forEach((event) => {
+        console.log(event.date.getFullYear());
+        console.log("---");
+      });
+
+      let filtered = events.filter(function (event) {
+        return event.date.getFullYear() == year;
+      });
+      res.json(filtered);
+    } catch (e) {
+      res.json({ error: e.message });
+    }
+  },
+  showMonth: async (req, res, next) => {
+    // and the other smitha showMonthYear
+    try {
+      console.log("showMonth");
+      const events = await Event.find({});
+      const month = req.params.month - 1;
+      console.log(month);
+
+      events.forEach((event) => {
+        console.log(event.date.getMonth());
+        console.log("---");
+      });
+
+      let filtered = events.filter(function (event) {
+        return (
+          // event.date.getFullYear() == year && // Because dates are starting from 0
+          event.date.getMonth() == month
+        );
+      });
+      res.json(filtered);
+    } catch (e) {
+      res.json({ error: e.message });
+    }
+  },
+  showYearMonth: async (req, res, next) => {
+    try {
+      const events = await Event.find({});
+      const year = req.params.year,
+        month = req.params.month - 1;
+      console.log(year, month);
+
+      let filtered = events.filter(function (event) {
+        return (
+          event.date.getFullYear() == year && // Because dates are starting from 0
+          event.date.getMonth() == month
+        );
+      });
+      res.json(filtered);
+    } catch (e) {
+      res.json({ error: e.message });
+    }
+  },
+  showDay: async (req, res, next) => {
+    try {
+      const events = await Event.find({});
+      const year = req.params.year,
+        month = req.params.month - 1,
+        day = req.params.day;
+      let filtered = events.filter(function (event) {
+        return (
+          event.date.getFullYear() == year && // Because dates are starting from 0
+          event.date.getMonth() == month &&
+          event.date.getDate() == day
         );
       });
       res.json(filtered);
@@ -104,34 +193,6 @@ module.exports = {
       res.json({ error: e.message });
     }
   },
-
-  /*showYearOrMonth: async (req, res, next) => {
-    console.log("showYearOrMonth");
-    try {
-      const events = await Event.find({});
-      const number =req.params.monthOryear ;
-      if (number.toString().lengh <2) {
-        const month = number -1;
-        let filtered = events.filter(function (event) {
-          return (
-            event.date.getMonth() == month
-            );
-          });
-          res.json(filtered);
-         }
-      else {
-          let filtered = events.filter(function (event) {
-            return (
-              event.date.getFullYear() == Number(number));});
-              res.json(filtered);
-           
-      }      
-         
-      
-    } catch (e) {
-      res.json({ error: e.message });
-    }
-  },*/
   //show events per DATE
   showYear: async (req, res, next) => {
     try {
@@ -139,38 +200,23 @@ module.exports = {
       const events = await Event.find({});
       const year = req.params.year;
       console.log(year);
-
-      events.forEach((event) => {
-        console.log(event.date.getFullYear());
-        console.log("---");
-      });
-
       let filtered = events.filter(function (event) {
-        return (
-         event.date.getFullYear() == year
-        );
+        return event.date.getFullYear() == year;
       });
       res.json(filtered);
     } catch (e) {
       res.json({ error: e.message });
     }
   },
-  showMonth : async (req, res, next) => {
+  showMonth: async (req, res, next) => {
     try {
       console.log("showMonth");
       const events = await Event.find({});
-      const 
-        month = req.params.month - 1;
+      const month = req.params.month - 1;
       console.log(month);
-
-      events.forEach((event) => {
-        console.log( event.date.getMonth());
-        console.log("---");
-      });
-
       let filtered = events.filter(function (event) {
         return (
-         // event.date.getFullYear() == year && // Because dates are starting from 0
+          // event.date.getFullYear() == year && // Because dates are starting from 0
           event.date.getMonth() == month
         );
       });
@@ -187,14 +233,9 @@ module.exports = {
         month = req.params.month - 1;
       console.log(year, month);
 
-      events.forEach((event) => {
-        console.log(event.date.getFullYear(), event.date.getMonth());
-        console.log("---");
-      });
-
       let filtered = events.filter(function (event) {
         return (
-         event.date.getFullYear() == year && // Because dates are starting from 0
+          event.date.getFullYear() == year && // Because dates are starting from 0
           event.date.getMonth() == month
         );
       });
@@ -228,7 +269,7 @@ module.exports = {
       console.log("showMonthYear");
       const category = req.params.category,
         events = await Event.find({ category }),
-       year = req.params.year;
+        year = req.params.year;
       console.log(year);
 
       events.forEach((event) => {
@@ -237,9 +278,7 @@ module.exports = {
       });
 
       let filtered = events.filter(function (event) {
-        return (
-         event.date.getFullYear() == year
-        );
+        return event.date.getFullYear() == year;
       });
       res.json(filtered);
     } catch (e) {
@@ -255,13 +294,13 @@ module.exports = {
       console.log(month);
 
       events.forEach((event) => {
-        console.log( event.date.getMonth());
+        console.log(event.date.getMonth());
         console.log("---");
       });
 
       let filtered = events.filter(function (event) {
         return (
-         // event.date.getFullYear() == year && // Because dates are starting from 0
+          // event.date.getFullYear() == year && // Because dates are starting from 0
           event.date.getMonth() == month
         );
       });
@@ -275,7 +314,7 @@ module.exports = {
       console.log("showCategoryMonthYear");
       const category = req.params.category,
         events = await Event.find({ category });
-        const year = req.params.year,
+      const year = req.params.year,
         month = req.params.month - 1;
       console.log(year, month);
 
@@ -286,7 +325,7 @@ module.exports = {
 
       let filtered = events.filter(function (event) {
         return (
-         event.date.getFullYear() == year && // Because dates are starting from 0
+          event.date.getFullYear() == year && // Because dates are starting from 0
           event.date.getMonth() == month
         );
       });
@@ -300,7 +339,7 @@ module.exports = {
       console.log("showCategoryDay");
       const category = req.params.category,
         events = await Event.find({ category });
-        const year = req.params.year,
+      const year = req.params.year,
         month = req.params.month - 1,
         day = req.params.day;
       let filtered = events.filter(function (event) {
